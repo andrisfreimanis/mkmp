@@ -1,4 +1,5 @@
 #include <vector>
+#include <string_view>
 
 #include "InputBase.hpp"
 
@@ -7,10 +8,14 @@ namespace mkmpNS
 {
   class InputText : public InputBase
   {
-    InputText();
+    public:
+      InputText(const std::string_view& filename);
 
-    virtual ~InputText();
+      virtual ~InputText();
 
-    virtual void getPointValues(const int numDims, const std::vector<double> &pointValues) const;
+      virtual void getPointValues(const int numDims, std::vector<double>& pointValues) const;
+    
+    private:
+      char m_delimiter{' '};
   };
-}
+} 

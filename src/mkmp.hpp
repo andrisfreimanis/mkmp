@@ -1,5 +1,5 @@
 #include <vector>
-#include <string>
+#include <string_view>
 
 
 namespace mkmpNS
@@ -7,7 +7,7 @@ namespace mkmpNS
   class MKMP
   {
     public:
-      MKMP(const int numDims, const std::string filename);
+      MKMP(const int numDims, const std::string_view filename);
 
       ~MKMP(){};
 

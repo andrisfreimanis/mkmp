@@ -6,13 +6,13 @@ namespace mkmpNS
   class InputBase
   {
     public:
-      InputBase(const std::string filename) : m_filename{filename}{};
+      InputBase() : m_filename{} {};
 
       virtual ~InputBase(){};
 
-      virtual void getPointValues(const int numDims, const std::vector<double> &pointValues) const = 0;
+      virtual void getPointValues(const int numDims, std::vector<double> &pointValues) const = 0;
     
     protected:
-      const std::string m_filename; 
+      std::string m_filename; 
   };
 }
