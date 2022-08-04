@@ -1,2 +1,7 @@
 # Ignore temp files
 ~*
+
+# VS Code folder
+.vscode/
+
+# bin folder
