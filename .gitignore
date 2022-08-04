@@ -1,7 +1,8 @@
-# Ignore temp files
+# Files
 ~*
+pat
 
-# VS Code folder
+# Folders
 .vscode/
+bin/
 
-# bin folder
