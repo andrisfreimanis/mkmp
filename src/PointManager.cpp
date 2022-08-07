@@ -5,23 +5,24 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "InputText.hpp"
+#include "mkmp.hpp"
+#include "PointManager.hpp"
 
-mkmpNS::InputText::InputText(const std::string_view& filename)
+mkmpNS::PointManager::PointManager(ParamStruct& params)
 {
-  m_filename = filename;
+  m_numDims   = params.numDims;
+  m_delimiter = params.delimiter;
+  m_pointFile = params.pointFile;
 } 
 
-mkmpNS::InputText::~InputText() {};
+mkmpNS::PointManager::~PointManager() {};
 
-void mkmpNS::InputText::getPointValues(const int numDims, 
-                                       std::vector<double>& pointValues) const
+void mkmpNS::PointManager::getPointValues(const int numDims, 
+                                          std::vector<double>& pointValues) const
 {
-  std::cout << "getPointValues" << "\n";
-
-  std::ifstream ifstream{m_filename};
+  std::ifstream ifstream{m_pointFile};
   if (!ifstream)
-    throw std::runtime_error("\n***** ERROR: Couldn't open point value file.\n\n");
+    throw std::runtime_error("\n\n***** ERROR: Couldn't open point value file.\n\n");
 
   while (ifstream.good())
   {
@@ -32,7 +33,6 @@ void mkmpNS::InputText::getPointValues(const int numDims,
     std::string extractedVal{};
     std::getline(valStream, extractedVal, m_delimiter);
     pointValues.push_back( std::stod(extractedVal) );
-
   }
   std::cout << numDims << "\n";
   for (auto val : pointValues)

@@ -1,13 +1,24 @@
-#include <vector>
+#pragma once
+
 #include <string_view>
+
+#include "PointManager.hpp"
+#include "OutputManager.hpp"
 
 
 namespace mkmpNS
 {
+  struct ParamStruct
+  {
+    int numDims{};
+    char delimiter{' '};
+    std::string pointFile{};
+  };
+
   class MKMP
   {
     public:
-      MKMP(const int numDims, const std::string_view filename);
+      MKMP(const std::string inputFile);
 
       ~MKMP(){};
 
@@ -16,7 +27,10 @@ namespace mkmpNS
       void storeResults();
 
     private:
-      const int m_numDims;
-      std::vector<double> m_pointData;
+      void buildParamList(const std::string inputFile);
+
+      ParamStruct m_paramList;
+      PointManager m_pointManager;
+      OutputManager* m_outputManager;
   };
 }
