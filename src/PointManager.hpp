@@ -3,7 +3,7 @@
 #include <vector>
 #include <string_view>
 
-#include "mkmp.hpp"
+#include "helper.hpp"
 
 namespace mkmpNS
 {
@@ -12,7 +12,8 @@ namespace mkmpNS
   class PointManager
   {
     public:
-      PointManager() {};
+      PointManager() = default;
+
       PointManager(mkmpNS::ParamStruct& params);
 
       ~PointManager(){};

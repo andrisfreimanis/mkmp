@@ -1,20 +1,14 @@
 #pragma once
 
-#include <string_view>
+#include <string>
 
+#include "helper.hpp"
 #include "PointManager.hpp"
 #include "OutputManager.hpp"
 
 
 namespace mkmpNS
 {
-  struct ParamStruct
-  {
-    int numDims{};
-    char delimiter{' '};
-    std::string pointFile{};
-  };
-
   class MKMP
   {
     public:
