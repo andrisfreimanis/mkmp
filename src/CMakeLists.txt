@@ -1,6 +1,12 @@
-include_directories(${INCLUDE_DIR})
+# mkmp/src/
 
-add_library(PointManager  PointManager.cpp)
-add_library(OutputManager OutputManager.cpp)
-add_library(mkmp          mkmp.cpp)
+
+# set convenience definitions
+set(SOURCE_DIR  ${CMAKE_SOURCE_DIR}/src)
+set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+
+file(GLOB SOURCES "*.cpp")
+
+add_library(mkmpLib ${SOURCES}) 
+target_include_directories(mkmpLib PRIVATE ${INCLUDE_DIR})
 

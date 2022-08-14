@@ -1,3 +1,5 @@
+# mkmp/
+
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name
@@ -12,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 enable_testing()
 add_subdirectory(test)
+add_subdirectory(src)
 
 message("")
 
@@ -32,28 +35,18 @@ message("Will build with: ${CMAKE_CXX_FLAGS}")
 if (NOT CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX}/bin)
 else ()
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 endif()
 message("Will put the executable in: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/bin.")
 
 
 # set convenience definitions
-set(BIN_DIR     ${CMAKE_SOURCE_DIR}/bin)
 set(SOURCE_DIR  ${CMAKE_SOURCE_DIR}/src)
-set(TEST_DIR    ${CMAKE_SOURCE_DIR}/test)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-include_directories(
-  ${SOURCE_DIR}
-  ${INCLUDE_DIR}
-  ${TEST_DIR}
-)
-
-
-file(GLOB HEADERS "${INCLUDE_DIR}/*.hpp")
-file(GLOB SOURCES "${SOURCE_DIR}/*.cpp")
 
 # executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE mkmpLib)
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR})
 
 message("")

@@ -15,7 +15,10 @@ void mkmpNS::PointManager::loadPointValues()
 {
   std::ifstream ifstream{m_pointFile};
   if (!ifstream)
-    throw std::runtime_error("\n\n***** ERROR: Couldn't open the point value file.\n\n");
+  {
+    std::string errMsg("\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() Couldn't open the point value file or it's empty.\n\n");
+    throw std::runtime_error(errMsg);
+  }
 
   while (ifstream.good())
   {
