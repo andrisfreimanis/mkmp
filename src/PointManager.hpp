@@ -23,8 +23,6 @@ namespace mkmpNS
       const std::vector<double>* getPointValues() {return &m_pointValues;};
     
     private:
-      void getPointValuesFromText();
-
       int m_numDims;
       char m_delimiter{' '};
       std::string m_pointFile;

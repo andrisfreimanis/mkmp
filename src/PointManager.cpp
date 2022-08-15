@@ -20,17 +20,36 @@ void mkmpNS::PointManager::loadPointValues()
     throw std::runtime_error(errMsg);
   }
 
-  while (ifstream.good())
+  std::string line{}; 
+  // Loop over lines in the file
+  while (std::getline(ifstream, line))
   {
-    std::string line{};
-    std::getline(ifstream, line);
-    std::istringstream valStream(line);
+    // ignore comments and empty lines, otherwise parse
+    if ( !(line[0] == '/' || line[0] == '#' || line.empty()) )
+    {
+      std::istringstream valStream(line);
+      std::string extractedVal{};
 
-    std::string extractedVal{};
-    std::getline(valStream, extractedVal, m_delimiter);
-    m_pointValues.push_back( std::stod(extractedVal) );
+      //Loop over values in the line
+      int columnCounter{0};
+      while(std::getline(valStream, extractedVal, m_delimiter))
+      {
+        m_pointValues.push_back( std::stod(extractedVal) );
+        ++columnCounter;
+      }
+      // Check already when reading values, so we don't have problems later
+      if (columnCounter != m_numDims)
+      {
+        std::string errMsg("\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() Number of columns != numDims.\n\n");
+        throw std::runtime_error(errMsg);
+      }
+    }
   }
-  std::cout << m_numDims << "\n";
-  for (auto val : m_pointValues)
-    std::cout << val << "\n";
+  
+  // Check if we read anything
+  if (m_pointValues.size() == 0)
+  {
+    std::string errMsg("\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() we didn't read any values.\n\n");
+    throw std::runtime_error(errMsg);
+  }
 }
