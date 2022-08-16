@@ -7,7 +7,7 @@
 
 namespace mkmpNS
 {
-  struct ParamStruct;
+  //struct ParamStruct;
 
   class PointManager
   {
@@ -21,8 +21,10 @@ namespace mkmpNS
       void loadPointValues();
 
       const std::vector<double>* getPointValues() {return &m_pointValues;};
-    
+
     private:
+      bool isNumber(const std::string& str) const {return str.find_first_not_of("-+e.0123456789") == std::string::npos;};
+
       int m_numDims;
       char m_delimiter{' '};
       std::string m_pointFile;

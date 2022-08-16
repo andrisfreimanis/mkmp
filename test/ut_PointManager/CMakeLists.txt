@@ -9,9 +9,12 @@ target_include_directories(ut_PointManager PRIVATE ${INCLUDE_DIR})
 
 add_test(ut_PointManager ./ut_PointManager)
 
-# add links to necessary csv files
-set(LN_SOURCE_DIR ${CMAKE_SOURCE_DIR}/test/ut_PointManager)
+
+# add links to the required csv files
 set(LN_DEST_DIR ${CMAKE_BINARY_DIR}/test/ut_PointManager)
-execute_process(COMMAND ln -sf ${LN_SOURCE_DIR}/emptyFile.csv ${LN_DEST_DIR}/emptyFile.csv)
-execute_process(COMMAND ln -sf ${LN_SOURCE_DIR}/1D.csv ${LN_DEST_DIR}/1D.csv)
-execute_process(COMMAND ln -sf ${LN_SOURCE_DIR}/2D.csv ${LN_DEST_DIR}/2D.csv)
+file(GLOB TEST_FILES "*.csv")
+foreach(FILE ${TEST_FILES})
+  get_filename_component(FILENAME ${FILE} NAME) 
+  execute_process(COMMAND rm ${LN_DEST_DIR}/${FILENAME})
+  execute_process(COMMAND cp ${FILE} ${LN_DEST_DIR}/${FILENAME})
+endforeach()

@@ -1,6 +1,6 @@
 #include <fstream>
 #include <sstream>
-#include <iostream>
+#include <string>
 
 #include "PointManager.hpp"
 
@@ -16,7 +16,9 @@ void mkmpNS::PointManager::loadPointValues()
   std::ifstream ifstream{m_pointFile};
   if (!ifstream)
   {
-    std::string errMsg("\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() Couldn't open the point value file or it's empty.\n\n");
+    std::string errMsg{"\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() Couldn't open the file '"};
+    errMsg += m_pointFile;
+    errMsg += "' or it's empty.\n\n";
     throw std::runtime_error(errMsg);
   }
 
@@ -25,7 +27,7 @@ void mkmpNS::PointManager::loadPointValues()
   while (std::getline(ifstream, line))
   {
     // ignore comments and empty lines, otherwise parse
-    if ( !(line[0] == '/' || line[0] == '#' || line.empty()) )
+    if ( !(line[0] == '/' || line[0] == '#' || line[0] == '%' || line.empty()) )
     {
       std::istringstream valStream(line);
       std::string extractedVal{};
@@ -34,8 +36,18 @@ void mkmpNS::PointManager::loadPointValues()
       int columnCounter{0};
       while(std::getline(valStream, extractedVal, m_delimiter))
       {
-        m_pointValues.push_back( std::stod(extractedVal) );
-        ++columnCounter;
+        if (isNumber(extractedVal))
+        {
+          m_pointValues.emplace_back( std::stod(extractedVal) );
+          ++columnCounter;
+        }
+        else
+        {
+          std::string errMsg{"\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() Value '"};
+          errMsg += extractedVal;
+          errMsg += "' is not a number.\n\n";
+          throw std::runtime_error(errMsg);
+        }
       }
       // Check already when reading values, so we don't have problems later
       if (columnCounter != m_numDims)
@@ -43,8 +55,8 @@ void mkmpNS::PointManager::loadPointValues()
         std::string errMsg("\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() Number of columns != numDims.\n\n");
         throw std::runtime_error(errMsg);
       }
-    }
-  }
+    } // if (not comments)
+  } // while loop
   
   // Check if we read anything
   if (m_pointValues.size() == 0)

@@ -1,6 +1,6 @@
 # mkmp/
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
 # set the project name
 project(mkmp 

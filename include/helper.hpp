@@ -11,3 +11,4 @@ namespace mkmpNS
     std::string pointFile{};
   };
 }
+
