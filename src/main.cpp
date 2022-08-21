@@ -8,14 +8,20 @@ int main(int argc, char *argv[])
   // Check input 
   if(argc != 2)
   {
-    std::cout << "*****\n";
+    std::cout << "\n*****\n";
     std::cout << "Usage: mkmp <input file name>\n";
-    std::cout << "*****\n";
+    std::cout << "*****\n\n";
   } 
   else
   {
-    mkmpNS::MKMP mkmpObject{argv[1]};
-    mkmpObject.executeSolver();
-    mkmpObject.storeResults();
+    try
+    {
+      mkmpNS::MKMP mkmpObject{argv[1]};
+      mkmpObject.executeAlgorithm();
+    }
+    catch(const std::exception& e)
+    {
+      std::cerr << e.what() << '\n';
+    }
   }
 }

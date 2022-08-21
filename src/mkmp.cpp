@@ -30,19 +30,12 @@ mkmpNS::MKMP::MKMP(const std::string inputFile)
   m_pointManager.loadPointValues();
   
   // Create output manager
-
-
-  std::cout << "Filename is: " << inputFile << "\n";
+  m_outputManager = mkmpNS::OutputManager(m_paramList);
 }
 
-void mkmpNS::MKMP::executeSolver( )
+void mkmpNS::MKMP::executeAlgorithm( )
 {
   std::cout << "Execute solver\n";
-}
-
-void mkmpNS::MKMP::storeResults( )
-{ 
-  std::cout << "Store results\n";
 }
 
 
@@ -67,9 +60,17 @@ void mkmpNS::MKMP::buildParamList(const std::string inputFile)
         m_paramList.delimiter = *(val.c_str());
       else if (key == "Point file")
         m_paramList.pointFile = val;
+      else if (key == "Output frequency")
+        m_paramList.outputFrequency = std::stoi(val);
+      else
+      {
+        std::string errMsg{"\n\n***** ERROR: mkmpNS::MKMP::buildParamList() unrecognized key '"};
+        errMsg += key;
+        errMsg += "' in the input file.\n\n ";
+        throw std::runtime_error(errMsg);
+      }
     }
     else
       throw std::runtime_error("\n\n***** ERROR: mkmpNS::MKMP::buildParamList() ':' must separate all key : val pairs in the input file.\n\n");
   }
 }
-

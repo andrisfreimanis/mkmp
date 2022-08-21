@@ -9,6 +9,7 @@ mkmpNS::PointManager::PointManager(mkmpNS::ParamStruct& params)
   m_numDims   = params.numDims;
   m_delimiter = params.delimiter;
   m_pointFile = params.pointFile;
+  m_numPoints = 0;
 } 
 
 void mkmpNS::PointManager::loadPointValues() 
@@ -55,7 +56,10 @@ void mkmpNS::PointManager::loadPointValues()
         std::string errMsg("\n\n***** ERROR: mkmpNS::PointManager::loadPointValues() Number of columns != numDims.\n\n");
         throw std::runtime_error(errMsg);
       }
-    } // if (not comments)
+
+      ++m_numPoints;
+      
+    } // if 
   } // while loop
   
   // Check if we read anything

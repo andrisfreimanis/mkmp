@@ -16,15 +16,13 @@ namespace mkmpNS
 
       ~MKMP(){};
 
-      void executeSolver();
+      void executeAlgorithm();
       
-      void storeResults();
-
     private:
       void buildParamList(const std::string inputFile);
 
       ParamStruct m_paramList;
       PointManager m_pointManager;
-      OutputManager* m_outputManager;
+      OutputManager m_outputManager;
   };
 }
